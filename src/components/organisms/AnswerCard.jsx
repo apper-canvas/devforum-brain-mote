@@ -2,6 +2,7 @@ import { useState } from "react";
 import ApperIcon from "@/components/ApperIcon";
 import VoteControls from "@/components/molecules/VoteControls";
 import UserBadge from "@/components/molecules/UserBadge";
+import CommentThread from "@/components/organisms/CommentThread";
 import Button from "@/components/atoms/Button";
 import { parseMarkdown } from "@/utils/markdown";
 import { cn } from "@/utils/cn";
@@ -76,7 +77,12 @@ const AnswerCard = ({ answer, canAccept = false, onVote, onAccept }) => {
                 reputation: answer.authorReputation
               }}
             />
-          </div>
+</div>
+
+          <CommentThread 
+            targetType="answer" 
+            targetId={answer.id} 
+          />
         </div>
       </div>
     </div>

@@ -4,6 +4,7 @@ import ApperIcon from "@/components/ApperIcon";
 import VoteControls from "@/components/molecules/VoteControls";
 import UserBadge from "@/components/molecules/UserBadge";
 import AnswerCard from "@/components/organisms/AnswerCard";
+import CommentThread from "@/components/organisms/CommentThread";
 import Tag from "@/components/atoms/Tag";
 import Button from "@/components/atoms/Button";
 import MarkdownEditor from "@/components/molecules/MarkdownEditor";
@@ -22,7 +23,7 @@ const QuestionDetail = () => {
   const [error, setError] = useState("");
   const [newAnswer, setNewAnswer] = useState("");
   const [submitting, setSubmitting] = useState(false);
-
+const [comments, setComments] = useState([]);
   const loadQuestion = async () => {
     try {
       setLoading(true);
@@ -156,8 +157,13 @@ const QuestionDetail = () => {
                   reputation: question.authorReputation
                 }}
               />
-            </div>
+</div>
           </div>
+
+          <CommentThread 
+            targetType="question" 
+            targetId={question.id} 
+          />
         </div>
       </div>
 
@@ -188,6 +194,7 @@ const QuestionDetail = () => {
                   canAccept={canAcceptAnswer && !question.acceptedAnswerId}
                   onVote={(id, vote) => handleVote(id, vote, "answer")}
                   onAccept={handleAcceptAnswer}
+questionId={question.id}
                 />
               ))}
           </div>
