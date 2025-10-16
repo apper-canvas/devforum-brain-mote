@@ -1,6 +1,6 @@
 import answersData from "@/services/mockData/answers.json";
 import notificationService from "@/services/api/notificationService";
-import questionService from "@/services/api/questionService";
+import { questionService } from "@/services/api/questionService";
 
 export const answerService = {
   async getAll() {
