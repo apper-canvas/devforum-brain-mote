@@ -1,4 +1,6 @@
 import answersData from "@/services/mockData/answers.json";
+import notificationService from "@/services/api/notificationService";
+import questionService from "@/services/api/questionService";
 
 export const answerService = {
   async getAll() {
@@ -31,7 +33,7 @@ export const answerService = {
       }));
   },
 
-  async create(answerData) {
+async create(answerData) {
     await new Promise(resolve => setTimeout(resolve, 400));
     const newId = Math.max(...answersData.map(a => a.Id)) + 1;
     const newAnswer = {
@@ -52,6 +54,22 @@ export const answerService = {
       createdAt: new Date().toISOString(),
       updatedAt: new Date().toISOString()
     });
+    
+    // Create notification for question author
+    try {
+      const question = await questionService.getById(answerData.questionId);
+      if (question && question.userId !== answerData.userId) {
+        await notificationService.create({
+          userId: question.userId,
+          questionId: answerData.questionId,
+          answerId: newId,
+          message: `New answer posted on your question`,
+          type: 'answer'
+        });
+      }
+    } catch (error) {
+      console.error('Failed to create notification:', error);
+    }
     
     return newAnswer;
   },
