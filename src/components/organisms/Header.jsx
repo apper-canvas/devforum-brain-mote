@@ -30,10 +30,10 @@ const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   };
 
   const handleNotificationClick = async (notification) => {
-    try {
+try {
       await notificationService.markAsRead(notification.Id);
       setDropdownOpen(false);
-      navigate(`/questions/${notification.questionId}`);
+      navigate(`/question/${notification.questionId}`);
       loadNotifications();
     } catch (error) {
       console.error('Failed to mark notification as read:', error);
